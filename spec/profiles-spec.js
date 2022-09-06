@@ -76,6 +76,7 @@ describe('XTerminalProfilesSingleton', () => {
 			},
 			promptToStartup: false,
 			copyOnSelect: false,
+			showNotifications: true,
 			webgl: true,
 			webLinks: false,
 		}
@@ -100,6 +101,7 @@ describe('XTerminalProfilesSingleton', () => {
 		url.searchParams.set('xtermOptions', JSON.stringify(defaultProfile.xtermOptions))
 		url.searchParams.set('promptToStartup', JSON.stringify(defaultProfile.promptToStartup))
 		url.searchParams.set('copyOnSelect', JSON.stringify(defaultProfile.copyOnSelect))
+		url.searchParams.set('showNotifications', JSON.stringify(defaultProfile.showNotifications))
 		url.searchParams.set('webgl', defaultProfile.webgl)
 		url.searchParams.set('webLinks', defaultProfile.webLinks)
 		return url
@@ -226,6 +228,9 @@ describe('XTerminalProfilesSingleton', () => {
 			return true
 		}
 		if (key === 'x-terminal.terminalSettings.copyOnSelect') {
+			return true
+		}
+		if (key === 'x-terminal.terminalSettings.showNotifications') {
 			return true
 		}
 		if (key === 'x-terminal.xtermAddons.webgl') {
@@ -369,6 +374,7 @@ describe('XTerminalProfilesSingleton', () => {
 			xtermOptions: JSON.parse(atom.config.get('x-terminal.terminalSettings.xtermOptions') || configDefaults.xtermOptions),
 			promptToStartup: atom.config.get('x-terminal.terminalSettings.promptToStartup') || configDefaults.promptToStartup,
 			copyOnSelect: atom.config.get('x-terminal.terminalSettings.copyOnSelect') || configDefaults.copyOnSelect,
+			showNotifications: atom.config.get('x-terminal.terminalSettings.showNotifications') || configDefaults.showNotifications,
 			webgl: atom.config.get('x-terminal.xtermAddons.webgl') || configDefaults.webgl,
 			webLinks: atom.config.get('x-terminal.xtermAddons.webLinks') || configDefaults.webLinks,
 		}
@@ -421,6 +427,7 @@ describe('XTerminalProfilesSingleton', () => {
 			},
 			promptToStartup: true,
 			copyOnSelect: true,
+			showNotifications: true,
 			webgl: true,
 			webLinks: false,
 		}
@@ -571,8 +578,9 @@ describe('XTerminalProfilesSingleton', () => {
 			title: '',
 			promptToStartup: false,
 			copyOnSelect: false,
+			showNotifications: true,
 		}
-		const expected = 'args=%5B%5D&command=somecommand&copyOnSelect=false&cwd=%2Fsome%2Fpath&deleteEnv=%5B%5D&encoding=&env=null&fontSize=14&leaveOpenAfterExit=true&name=sometermtype&promptToStartup=false&relaunchTerminalOnStartup=true&setEnv=%7B%7D&title='
+		const expected = 'args=%5B%5D&command=somecommand&copyOnSelect=false&cwd=%2Fsome%2Fpath&deleteEnv=%5B%5D&encoding=&env=null&fontSize=14&leaveOpenAfterExit=true&name=sometermtype&promptToStartup=false&relaunchTerminalOnStartup=true&setEnv=%7B%7D&showNotifications=true&title='
 		const url = XTerminalProfilesSingleton.instance.generateNewUrlFromProfileData(data)
 		url.searchParams.sort()
 		expect(url.searchParams.toString()).toBe(expected)
@@ -597,13 +605,14 @@ describe('XTerminalProfilesSingleton', () => {
 			},
 			promptToStartup: false,
 			copyOnSelect: false,
+			showNotifications: true,
 		}
 		const data = {
 			...validData,
 			foo: 'bar',
 			baz: null,
 		}
-		const expected = 'args=%5B%5D&command=somecommand&copyOnSelect=false&cwd=%2Fsome%2Fpath&deleteEnv=%5B%5D&encoding=&env=null&fontSize=14&leaveOpenAfterExit=true&name=sometermtype&promptToStartup=false&relaunchTerminalOnStartup=true&setEnv=%7B%7D&title=&xtermOptions=%7B%22cursorBlink%22%3Atrue%7D'
+		const expected = 'args=%5B%5D&command=somecommand&copyOnSelect=false&cwd=%2Fsome%2Fpath&deleteEnv=%5B%5D&encoding=&env=null&fontSize=14&leaveOpenAfterExit=true&name=sometermtype&promptToStartup=false&relaunchTerminalOnStartup=true&setEnv=%7B%7D&showNotifications=true&title=&xtermOptions=%7B%22cursorBlink%22%3Atrue%7D'
 		const url = XTerminalProfilesSingleton.instance.generateNewUrlFromProfileData(data)
 		url.searchParams.sort()
 		expect(url.searchParams.toString()).toEqual(expected)
@@ -652,6 +661,7 @@ describe('XTerminalProfilesSingleton', () => {
 			xtermOptions: JSON.parse(configDefaults.xtermOptions),
 			promptToStartup: configDefaults.promptToStartup,
 			copyOnSelect: configDefaults.copyOnSelect,
+			showNotifications: configDefaults.showNotifications,
 			webgl: configDefaults.webgl,
 			webLinks: configDefaults.webLinks,
 		}
@@ -903,6 +913,20 @@ describe('XTerminalProfilesSingleton', () => {
 		expect(XTerminalProfilesSingleton.instance.createProfileDataFromUri(url.href)).toEqual(expected)
 	})
 
+	it('createProfileDataFromUri() URI showNotifications set to null', () => {
+		const url = getDefaultExpectedUrl()
+		url.searchParams.set('showNotifications', null)
+		const expected = getDefaultExpectedProfile()
+		expect(XTerminalProfilesSingleton.instance.createProfileDataFromUri(url.href)).toEqual(expected)
+	})
+
+	it('createProfileDataFromUri() URI showNotifications set to empty string', () => {
+		const url = getDefaultExpectedUrl()
+		url.searchParams.set('showNotifications', '')
+		const expected = getDefaultExpectedProfile()
+		expect(XTerminalProfilesSingleton.instance.createProfileDataFromUri(url.href)).toEqual(expected)
+	})
+
 	it('diffProfiles() no change between objects', () => {
 		const baseProfile = XTerminalProfilesSingleton.instance.getBaseProfile()
 		const expected = {}
@@ -1018,6 +1042,7 @@ describe('XTerminalProfilesSingleton', () => {
 			xtermOptions: JSON.parse(configDefaults.xtermOptions),
 			promptToStartup: configDefaults.promptToStartup,
 			copyOnSelect: configDefaults.copyOnSelect,
+			showNotifications: configDefaults.showNotifications,
 			webgl: configDefaults.webgl,
 			webLinks: configDefaults.webLinks,
 		}

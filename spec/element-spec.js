@@ -1960,6 +1960,10 @@ describe('XTerminalElement', () => {
 		expect(messageDiv.textContent).toBe('fooRestart')
 	})
 
+	function givenShowNotificationsFalse () {
+		element.model.profile.showNotifications = false
+	}
+
 	it('showNotification() success message with Atom notification', () => {
 		spyOn(atom.notifications, 'addSuccess')
 		element.showNotification(
@@ -1967,6 +1971,16 @@ describe('XTerminalElement', () => {
 			'success',
 		)
 		expect(atom.notifications.addSuccess).toHaveBeenCalled()
+	})
+
+	it('showNotification() success message with Atom notification disabled', () => {
+		givenShowNotificationsFalse()
+		spyOn(atom.notifications, 'addSuccess')
+		element.showNotification(
+			'foo',
+			'success',
+		)
+		expect(atom.notifications.addSuccess).not.toHaveBeenCalled()
 	})
 
 	it('showNotification() error message with Atom notification', () => {
@@ -1978,6 +1992,16 @@ describe('XTerminalElement', () => {
 		expect(atom.notifications.addError).toHaveBeenCalled()
 	})
 
+	it('showNotification() error message with Atom notification disabled', () => {
+		givenShowNotificationsFalse()
+		spyOn(atom.notifications, 'addError')
+		element.showNotification(
+			'foo',
+			'error',
+		)
+		expect(atom.notifications.addError).not.toHaveBeenCalled()
+	})
+
 	it('showNotification() warning message with Atom notification', () => {
 		spyOn(atom.notifications, 'addWarning')
 		element.showNotification(
@@ -1985,6 +2009,16 @@ describe('XTerminalElement', () => {
 			'warning',
 		)
 		expect(atom.notifications.addWarning).toHaveBeenCalled()
+	})
+
+	it('showNotification() warning message with Atom notification disabled', () => {
+		givenShowNotificationsFalse()
+		spyOn(atom.notifications, 'addWarning')
+		element.showNotification(
+			'foo',
+			'warning',
+		)
+		expect(atom.notifications.addWarning).not.toHaveBeenCalled()
 	})
 
 	it('showNotification() info message with Atom notification', () => {
@@ -1996,6 +2030,16 @@ describe('XTerminalElement', () => {
 		expect(atom.notifications.addInfo).toHaveBeenCalled()
 	})
 
+	it('showNotification() info message with Atom notification disabled', () => {
+		givenShowNotificationsFalse()
+		spyOn(atom.notifications, 'addInfo')
+		element.showNotification(
+			'foo',
+			'info',
+		)
+		expect(atom.notifications.addInfo).not.toHaveBeenCalled()
+	})
+
 	it('showNotification() bogus info type with Atom notification', () => {
 		const call = () => {
 			element.showNotification(
@@ -2004,6 +2048,17 @@ describe('XTerminalElement', () => {
 			)
 		}
 		expect(call).toThrow(new Error('Unknown info type: bogus'))
+	})
+
+	it('showNotification() bogus info type with Atom notification disabled', () => {
+		givenShowNotificationsFalse()
+		const call = () => {
+			element.showNotification(
+				'foo',
+				'bogus',
+			)
+		}
+		expect(call).not.toThrow(new Error('Unknown info type: bogus'))
 	})
 
 	it('showNotification() custom restart button text', () => {

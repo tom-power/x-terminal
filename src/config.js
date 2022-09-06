@@ -84,6 +84,7 @@ export function resetConfigDefaults () {
 		xtermOptions: '{}',
 		promptToStartup: false,
 		copyOnSelect: false,
+		showNotifications: true,
 		apiOpenPosition: 'Center',
 	}
 }
@@ -462,6 +463,21 @@ export const config = configOrder({
 					fromUrlParam: (val) => JSON.parse(val),
 					checkUrlParam: (val) => (val !== null && val !== ''),
 					toBaseProfile: (previousValue) => validateBooleanConfigSetting('x-terminal.terminalSettings.copyOnSelect', configDefaults.copyOnSelect),
+					fromMenuSetting: (element, baseValue) => element.checked,
+					toMenuSetting: (val) => val,
+				},
+			},
+			showNotifications: {
+				title: 'Show notifications',
+				description: 'Show terminal process exit success and failure notifications',
+				type: 'boolean',
+				default: configDefaults.showNotifications,
+				profileData: {
+					defaultProfile: configDefaults.showNotifications,
+					toUrlParam: (val) => JSON.stringify(val),
+					fromUrlParam: (val) => JSON.parse(val),
+					checkUrlParam: (val) => (val !== null && val !== ''),
+					toBaseProfile: (previousValue) => validateBooleanConfigSetting('x-terminal.terminalSettings.showNotifications', configDefaults.showNotifications),
 					fromMenuSetting: (element, baseValue) => element.checked,
 					toMenuSetting: (val) => val,
 				},
