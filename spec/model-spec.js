@@ -96,39 +96,104 @@ describe('XTerminalModel', () => {
 		expect(model.getPath()).toBe(configDefaults.cwd)
 	})
 
-	it('constructor with previous active item that has getPath() method', async () => {
-		const previousActiveItem = jasmine.createSpyObj('somemodel', ['getPath'])
-		previousActiveItem.getPath.and.returnValue(tmpdir)
+	async function givenPreviousActiveItemHasMethod (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', [name])
+		previousActiveItem[name].and.returnValue(tmpdir)
 		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+	}
+
+	it('constructor with previous active item that has getPath() method', async () => {
+		await givenPreviousActiveItemHasMethod('getPath')
 		const model = await createNewModel({ projectCwd: true })
 		expect(model.getPath()).toBe(tmpdir)
 	})
 
-	it('constructor with previous active item that has getPath() method returns file path', async () => {
-		const previousActiveItem = jasmine.createSpyObj('somemodel', ['getPath'])
+	async function givenPreviousActiveItemHasProperty (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', {}, { [name]: '' })
+		Object.getOwnPropertyDescriptor(previousActiveItem, name).get.and.returnValue(tmpdir)
+		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+	}
+
+	it('constructor with previous active item that has selectedPath property', async () => {
+		await givenPreviousActiveItemHasProperty('selectedPath')
+		const model = await createNewModel({ projectCwd: true })
+		expect(model.getPath()).toBe(tmpdir)
+	})
+
+	async function givenPreviousActiveItemReturnsFilePathFromMethod (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', [name])
 		const filePath = path.join(tmpdir, 'somefile')
 		await fs.writeFile(filePath, '')
-		previousActiveItem.getPath.and.returnValue(filePath)
+		previousActiveItem[name].and.returnValue(filePath)
 		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+	}
+
+	it('constructor with previous active item that has getPath() method that returns file path', async () => {
+		await givenPreviousActiveItemReturnsFilePathFromMethod('getPath')
 		const model = await createNewModel({ projectCwd: true })
 		expect(model.getPath()).toBe(tmpdir)
 	})
 
-	it('constructor with previous active item that has getPath() returning invalid path', async () => {
-		const previousActiveItem = jasmine.createSpyObj('somemodel', ['getPath'])
-		previousActiveItem.getPath.and.returnValue(path.join(tmpdir, 'non-existent-dir'))
+	async function givenPreviousActiveItemReturnsFilePathFromProperty (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', {}, { [name]: '' })
+		const filePath = path.join(tmpdir, 'somefile')
+		await fs.writeFile(filePath, '')
+		Object.getOwnPropertyDescriptor(previousActiveItem, name).get.and.returnValue(filePath)
 		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+	}
+
+	it('constructor with previous active item that has selectedPath() property that returns file path', async () => {
+		await givenPreviousActiveItemReturnsFilePathFromProperty('selectedPath')
+		const model = await createNewModel({ projectCwd: true })
+		expect(model.getPath()).toBe(tmpdir)
+	})
+
+	function givenPreviousActiveItemReturnsInvalidPathFromMethod (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', [name])
+		previousActiveItem[name].and.returnValue(path.join(tmpdir, 'non-existent-dir'))
+		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+	}
+
+	it('constructor with previous active item that has getPath() returning invalid path', async () => {
+		givenPreviousActiveItemReturnsInvalidPathFromMethod('getPath')
 		const model = await createNewModel({ projectCwd: true })
 		expect(model.getPath()).toBe(configDefaults.cwd)
 	})
 
-	it('constructor with previous active item which exists in project path', async () => {
-		const previousActiveItem = jasmine.createSpyObj('somemodel', ['getPath'])
+	function givenPreviousActiveItemReturnsInvalidPathFromProperty (name) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', {}, { [name]: '' })
+		Object.getOwnPropertyDescriptor(previousActiveItem, name).get.and.returnValue(path.join(tmpdir, 'non-existent-dir'))
 		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
-		const expected = ['/some/dir', null]
-		spyOn(atom.project, 'relativizePath').and.returnValue(expected)
+	}
+
+	it('constructor with previous active item that has selectedPath returning invalid path', async () => {
+		givenPreviousActiveItemReturnsInvalidPathFromProperty('selectedPath')
 		const model = await createNewModel({ projectCwd: true })
-		expect(model.getPath()).toBe(expected[0])
+		expect(model.getPath()).toBe(configDefaults.cwd)
+	})
+
+	function givenPreviousActiveItemFromProjectPathForMethod (name, projectPath) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', [name])
+		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+		spyOn(atom.project, 'relativizePath').and.returnValue(projectPath)
+	}
+
+	it('constructor with previous active item which exists in project path and calls getPath', async () => {
+		givenPreviousActiveItemFromProjectPathForMethod('getPath', ['/some/dir', null])
+		const model = await createNewModel({ projectCwd: true })
+		expect(model.getPath()).toBe('/some/dir')
+	})
+
+	function givenPreviousActiveItemFromProjectPathForProperty (name, projectPath) {
+		const previousActiveItem = jasmine.createSpyObj('somemodel', {}, { [name]: '' })
+		spyOn(atom.workspace, 'getActivePaneItem').and.returnValue(previousActiveItem)
+		spyOn(atom.project, 'relativizePath').and.returnValue(projectPath)
+	}
+
+	it('constructor with previous active item which exists in project path and calls selectedPath', async () => {
+		givenPreviousActiveItemFromProjectPathForProperty('selectedPath', ['/some/dir', null])
+		const model = await createNewModel({ projectCwd: true })
+		expect(model.getPath()).toBe('/some/dir')
 	})
 
 	it('constructor with custom title', async () => {
