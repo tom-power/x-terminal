@@ -6,7 +6,7 @@
   "bugs": {
     "url": "https://github.com/bus-stop/x-terminal/issues/new/choose"
   },
-  "version": "13.1.5",
+  "version": "14.0.6",
   "description": "An xterm based Atom plugin for providing terminals inside your Atom workspace. A fork of atom-xterm",
   "keywords": [
     "terminal",
@@ -54,32 +54,32 @@
     }
   },
   "dependencies": {
-    "deep-object-diff": "^1.1.7",
-    "fs-extra": "^10.1.0",
-    "marked": "^4.0.18",
+    "deep-object-diff": "^1.1.9",
+    "fs-extra": "^11.1.0",
+    "marked": "^4.2.5",
     "node-pty-prebuilt-multiarch": "^0.10.0",
     "uuid": "^9.0.0",
-    "whatwg-url": "^11.0.0",
-    "which": "^2.0.2",
-    "xterm": "4.19.0",
-    "xterm-addon-fit": "0.5.0",
-    "xterm-addon-ligatures": "0.5.3",
-    "xterm-addon-web-links": "0.6.0",
-    "xterm-addon-webgl": "0.12.0"
+    "whatwg-url": "^12.0.0",
+    "which": "^3.0.0",
+    "xterm": "5.1.0",
+    "xterm-addon-fit": "0.7.0",
+    "xterm-addon-ligatures": "0.6.0",
+    "xterm-addon-web-links": "0.8.0",
+    "xterm-addon-webgl": "0.14.0"
   },
   "devDependencies": {
     "@semantic-release/apm-config": "^9.0.1",
     "atom-jasmine3-test-runner": "^5.2.13",
-    "eslint": "^8.23.0",
+    "eslint": "^8.33.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-n": "^15.2.5",
-    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
     "postcss-less": "^6.0.0",
-    "semantic-release": "^19.0.5",
-    "stylelint": "^14.11.0",
-    "stylelint-config-standard": "^28.0.0",
+    "semantic-release": "^20.1.0",
+    "stylelint": "^14.16.1",
+    "stylelint-config-standard": "^29.0.0",
     "temp": "^0.9.4"
   },
   "scripts": {

@@ -1,3 +1,60 @@
+## [14.0.6](https://github.com/bus-stop/x-terminal/compare/v14.0.5...v14.0.6) (2023-01-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency whatwg-url to v12 ([#526](https://github.com/bus-stop/x-terminal/issues/526)) ([3729cee](https://github.com/bus-stop/x-terminal/commit/3729cee26ade73da1b0028e882107d3d82edbf74))
+
+## [14.0.5](https://github.com/bus-stop/x-terminal/compare/v14.0.4...v14.0.5) (2022-12-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency xterm-addon-fit to v0.7.0 ([#518](https://github.com/bus-stop/x-terminal/issues/518)) ([406742a](https://github.com/bus-stop/x-terminal/commit/406742a27cb845083c17d50c38f76b2e4316a64f))
+
+## [14.0.4](https://github.com/bus-stop/x-terminal/compare/v14.0.3...v14.0.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency deep-object-diff to ^1.1.9 ([#505](https://github.com/bus-stop/x-terminal/issues/505)) ([18fc497](https://github.com/bus-stop/x-terminal/commit/18fc4976f0a053d2f75279491129ce4a5a7964f2))
+* **deps:** update dependency fs-extra to v11 ([#511](https://github.com/bus-stop/x-terminal/issues/511)) ([62ba576](https://github.com/bus-stop/x-terminal/commit/62ba5761fc9a6439659e3c04c086954151b93634))
+* **deps:** update dependency marked to ^4.2.4 ([#499](https://github.com/bus-stop/x-terminal/issues/499)) ([37fd045](https://github.com/bus-stop/x-terminal/commit/37fd0456aef4e62e61dd59fcbae126278c26610c))
+
+## [14.0.3](https://github.com/bus-stop/x-terminal/compare/v14.0.2...v14.0.3) (2022-12-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency which to v3 ([#500](https://github.com/bus-stop/x-terminal/issues/500)) ([8327783](https://github.com/bus-stop/x-terminal/commit/832778345b9d1375b04bf37c99c2dfac83bfc2ca))
+
+## [14.0.2](https://github.com/bus-stop/x-terminal/compare/v14.0.1...v14.0.2) (2022-12-20)
+
+
+### Bug Fixes
+
+* **deps:** update xterm ([#517](https://github.com/bus-stop/x-terminal/issues/517)) ([3625c5a](https://github.com/bus-stop/x-terminal/commit/3625c5a0615a3ee620fe563cc3af66d9873bf2b2))
+
+## [14.0.1](https://github.com/bus-stop/x-terminal/compare/v14.0.0...v14.0.1) (2022-10-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency marked to ^4.1.1 ([#490](https://github.com/bus-stop/x-terminal/issues/490)) ([2356212](https://github.com/bus-stop/x-terminal/commit/2356212391291a78408be983edfaecc9368732f7))
+
+# [14.0.0](https://github.com/bus-stop/x-terminal/compare/v13.1.5...v14.0.0) (2022-09-20)
+
+
+### Bug Fixes
+
+* update xterm ([#485](https://github.com/bus-stop/x-terminal/issues/485)) ([256cbbb](https://github.com/bus-stop/x-terminal/commit/256cbbb1978129139a16a413b48b6ff1a8139f51))
+
+
+### BREAKING CHANGES
+
+- xterm options will need to update to v5.
+- Theme `selection` color renamed to `selectionBackground`
+
 ## [13.1.5](https://github.com/bus-stop/x-terminal/compare/v13.1.4...v13.1.5) (2022-09-06)
 
 
